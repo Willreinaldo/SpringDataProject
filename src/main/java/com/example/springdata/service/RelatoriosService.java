@@ -1,6 +1,7 @@
 package com.example.springdata.service;
 
 import com.example.springdata.orm.Funcionario;
+import com.example.springdata.orm.FuncionarioProjecao;
 import com.example.springdata.repository.FuncionarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class RelatoriosService {
             System.out.println("1 - Busca funcionário por nome");
             System.out.println("2 - Busca funcionário por nome, data contratação e salário maior");
             System.out.println("3 - Busca funcionário por data de contratação");
+            System.out.println("4 - Busca por funcionário - salário");
 
 
             int action = scanner.nextInt();
@@ -37,11 +39,14 @@ public class RelatoriosService {
                 case 2:
                     buscarFuncionarioNomeSalarioMaiorData(scanner);
                     break;
-                default:
-                    system = false;
-                    break;
                 case 3:
                     buscaFuncionarioDataContratacao(scanner);
+                    break;
+                case 4:
+                    buscaFuncionarioSalario();
+                    break;
+                default:
+                    system = false;
                     break;
             }
         }
@@ -73,5 +78,11 @@ public class RelatoriosService {
         List<Funcionario> list = funcionarioRepository.findDataContratacaoMaior(localDate);
         list.forEach(System.out::println);
 
+    }
+
+    private void buscaFuncionarioSalario(){
+        List<FuncionarioProjecao> list = funcionarioRepository.findFuncionarioSalario();
+        list.forEach(f -> System.out.println("Funcionario id: "+ f.getId()
+                + " | nome" + f.getNome() + "| Salario: " + f.getSalario()));
     }
 }
